@@ -12,7 +12,7 @@ env:
 
 jobs:
   generate_bridge:
-    runs-on: ${{ matrix.job.os }}
+    runs-on: ${{ ((github.event_name != 'pull_request' && github.event_name != 'pull_request_target') || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON(vars.CI_RUNNER_ROUTES || '{}')[matrix.job.os] || matrix.job.os }}
     strategy:
       fail-fast: false
       matrix:
